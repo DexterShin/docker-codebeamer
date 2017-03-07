@@ -21,7 +21,8 @@ RUN \
   apt-get update && \
   apt-get install -y oracle-java8-installer && \
   rm -rf /var/lib/apt/lists/* && \
-  rm -rf /var/cache/oracle-jdk8-installer
+  rm -rf /var/cache/oracle-jdk8-installer && \
+  apt install oracle-java8-set-default
 
 # Define commonly used JAVA_HOME variable
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
@@ -33,7 +34,7 @@ RUN mkdir -p /opt/codebeamer
 RUN /usr/sbin/useradd --create-home --home-dir /opt/codebeamer --shell /bin/bash codebeamer
 
 # ADD local-installer/CB-${CODEBEAMER_VERSION}-final-linux.bin /opt/codebeamer/cb.bin
-RUN wget -q -o /opt/codebaemr/cb.bin https://intland.com/wp-content/uploads/2017/03/CB-8.1.0-final-linux.bin
+RUN wget https://intland.com/wp-content/uploads/2017/03/CB-8.1.0-final-linux.bin -o /opt/codebaemr/cb.bin
 
 RUN chmod +x /opt/codebeamer/cb.bin
 ADD installer/cb /opt/codebeamer/cb
