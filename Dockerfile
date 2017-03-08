@@ -6,7 +6,7 @@ MAINTAINER dextershin <shin@chulho.net>
 RUN apt-get update && apt-get install -q -y git-core curl sudo xmlstarlet subversion \
   software-properties-common python-software-properties \
   build-essential chrpath libssl-dev libxft-dev libfreetype6 libfreetype6-dev libfontconfig1 libfontconfig1-dev phantomjs fontconfig fonts-unfonts-core\
-  expect libtcnative-1 language-pack-en language-pack-ko \
+  expect libtcnative-1 language-pack-en language-pack-ko cpio\
   && rm -rf /var/lib/apt/lists/*
 
 # Configure locale
@@ -28,19 +28,15 @@ RUN \
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV PATH $PATH:$JAVA_HOME/bin
 
-# Setup volume handling
-RUN mkdir -p /opt/codebeamer
 
-RUN /usr/sbin/useradd --create-home --home-dir /opt/codebeamer --shell /bin/bash codebeamer
-
+# Install codebeamder
 # ADD local-installer/CB-${CODEBEAMER_VERSION}-final-linux.bin /opt/codebeamer/cb.bin
-RUN wget https://intland.com/wp-content/uploads/2017/03/CB-8.1.0-final-linux.bin -o /opt/codebaemr/cb.bin
+RUN mkdir -p /opt/codebeamer
+RUN /usr/sbin/useradd --create-home --home-dir /opt/codebeamer --shell /bin/bash codebeamer
+RUN curl -o /tmp/cb.bin https://intland.com/wp-content/uploads/2017/03/CB-8.1.0-final-linux.bin 
+RUN mv /tmp/cb.bin /opt/codebeamer/ && chmod +x /opt/codebeamer/cb.bin
 
-RUN chmod +x /opt/codebeamer/cb.bin
-ADD installer/cb /opt/codebeamer/cb
-RUN chmod +x /opt/codebeamer/cb
-
-ADD entrypoint.sh
+ADD entrypoint.sh /
 ADD install_codebeamer.sh /opt/codebeamer/install_codebeamer.sh
 
 RUN chown codebeamer:codebeamer -R /opt/codebeamer

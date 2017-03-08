@@ -2,12 +2,10 @@
 #
 set -o errexit
 
-sudo own-volume
-
-if [ -f "/opt/codebeamer/first_time" ];
+if [ -f "/opt/codebeamer/install_codebeamer.sh" ];
 then
 
-	rm /opt/codebeamer/first_time
+	rm /opt/codebeamer/install_codebeamer.sh
 	rm /opt/codebeamer/cb.bin
 	chmod +x /opt/codebeamer/dist/bin/cb
 
