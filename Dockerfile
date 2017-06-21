@@ -28,12 +28,13 @@ RUN \
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV PATH $PATH:$JAVA_HOME/bin
 
-
 # Install codebeamder
 # ADD local-installer/CB-${CODEBEAMER_VERSION}-final-linux.bin /opt/codebeamer/cb.bin
 RUN mkdir -p /opt/codebeamer
 RUN /usr/sbin/useradd --create-home --home-dir /opt/codebeamer --shell /bin/bash codebeamer
-RUN curl -o /tmp/cb.bin https://intland.com/wp-content/uploads/2017/03/CB-8.1.0-final-linux.bin 
+#RUN curl -o /tmp/cb.bin https://intland.com/wp-content/uploads/2017/03/CB-8.1.0-final-linux.bin 
+#RUN curl -o /tmp/cb.bin https://intland.com/wp-content/uploads/2017/05/CB-8.2.0.1-final-linux.bin
+RUN curl -o /tmp/cb.bin https://intland.com/wp-content/uploads/2017/06/CB-8.2.1-final-linux.bin
 RUN mv /tmp/cb.bin /opt/codebeamer/ && chmod +x /opt/codebeamer/cb.bin
 
 ADD entrypoint.sh /
